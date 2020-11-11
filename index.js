@@ -39,8 +39,24 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
 
+Person.prototype.eat = function(food) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(food);
+  }
+}
+
+Person.prototype.poop = function() {
+  this.stomach = [];
+}
+
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`
 }
 
 /*
@@ -57,8 +73,15 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
 
+Car.prototype.fill = function(gallons) {
+  return this.tank += gallons;
 }
 
 /*
@@ -68,18 +91,30 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
 
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
+}
+
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. -- The first binding is window/global binding, it means that this can literally be pointing to anything and there is not context to tell it where it should be pointing. We want to avoid this.
+  2. -- The second binding is implicit, meaning "Your inside of 'THIS' you should look in here".
+  3. -- The third binding is the explicit binding which means exactly waht it says, you are explicitly telling it exactly what you want this to reference when you invoke the function.
+  4. -- The fourth binding is for when your generating objects with a constructor function, it says "Hey I made a new object, use that as your reference".
+
+  With the power of these 4 bindings you will be the master of THIS!
+
+  Master of what? Don't use window binding...
 */
 
 
